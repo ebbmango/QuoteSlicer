@@ -1,17 +1,7 @@
 <script lang="ts">
   import MapGroup from "./lib/MapGroup.svelte";
 
-  let colors = [
-    "greenish",
-    "crystal",
-    "aquarelle",
-    "neptune",
-    "wisteria",
-    "mauve",
-    "coral",
-    "leon",
-    "chamois",
-  ];
+  let groups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 </script>
 
 <main>
@@ -24,12 +14,11 @@
       <div
         class="flex flex-col w-[81.3%] h-[85%] rounded-[20px] bg-carbon px-[9.26%] py-[36px] gap-3.5 overflow-scroll no-scrollbar"
       >
-        {#each colors as color, i}
+        {#each groups as _, i}
           <MapGroup
-            {color}
             index={i}
             isFirst={i === 0}
-            isLast={i === colors.length - 1}
+            isLast={i === groups.length - 1}
           />
         {/each}
       </div>
