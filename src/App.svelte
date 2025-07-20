@@ -10,6 +10,7 @@
     "mauve",
     "coral",
     "leon",
+    "chamois",
   ];
 </script>
 
@@ -26,6 +27,7 @@
         {#each colors as color, i}
           <MapGroup
             {color}
+            index={i}
             isFirst={i === 0}
             isLast={i === colors.length - 1}
           />

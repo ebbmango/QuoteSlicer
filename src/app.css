@@ -27,29 +27,38 @@
   --color-steel: #4a4a4a; /* Input Fields */
 
   --color-greenish: #bece7b;
+  --color-light-greenish: #f3ffc2;
   --color-dark-greenish: #556124;
 
   --color-crystal: #7bcea2;
+  --color-light-crystal: #c2ffde;
   --color-dark-crystal: #556124;
 
   --color-aquarelle: #7bc6ce;
+  --color-light-aquarelle: #c2f9ff;
   --color-dark-aquarelle: #255f6c;
 
   --color-neptune: #7b89ce;
+  --color-light-neptune: #c2ccff;
   --color-dark-neptune: #212e6f;
 
   --color-wisteria: #a17bce;
+  --color-light-wisteria: #ddc2ff;
   --color-dark-wisteria: #3f1b6c;
 
   --color-mauve: #cc7bce;
+  --color-light-mauve: #fdc2ff;
   --color-dark-mauve: #582259;
 
   --color-coral: #ce7b8c;
+  --color-light-coral: #ffc2ce;
   --color-dark-coral: #511824;
 
   --color-leon: #ce9c7b;
+  --color-light-leon: #ffdac2;
   --color-dark-leon: #522c13;
 
   --color-chamois: #cebe7b;
+  --color-light-chamois: #fff3c2;
   --color-dark-chamois: #4d4213;
 }
