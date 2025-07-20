@@ -1,5 +1,16 @@
 <script lang="ts">
-  import Counter from "./lib/Counter.svelte";
+  import MapGroup from "./lib/MapGroup.svelte";
+
+  let colors = [
+    "greenish",
+    "crystal",
+    "aquarelle",
+    "neptune",
+    "wisteria",
+    "mauve",
+    "coral",
+    "leon",
+  ];
 </script>
 
 <main>
@@ -12,19 +23,13 @@
       <div
         class="flex flex-col w-[81.3%] h-[85%] rounded-[20px] bg-carbon px-[9.26%] py-[36px] gap-3.5 overflow-scroll no-scrollbar"
       >
-        <div
-          class="min-h-[70px] w-full bg-greenish rounded-t-[10px] rounded-b-[2px]"
-        ></div>
-        <div class="min-h-[70px] w-full bg-crystal rounded-[2px]"></div>
-        <div class="min-h-[70px] w-full bg-aquarelle rounded-[2px]"></div>
-        <div class="min-h-[70px] w-full bg-neptune rounded-[2px]"></div>
-        <div class="min-h-[70px] w-full bg-wisteria rounded-[2px]"></div>
-        <div class="min-h-[70px] w-full bg-mauve rounded-[2px]"></div>
-        <div class="min-h-[70px] w-full bg-coral rounded-[2px]"></div>
-        <div class="min-h-[70px] w-full bg-leon rounded-[2px]"></div>
-        <div
-          class="min-h-[70px] w-full bg-chamois rounded-b-[10px] rounded-t-[2px]"
-        ></div>
+        {#each colors as color, i}
+          <MapGroup
+            {color}
+            isFirst={i === 0}
+            isLast={i === colors.length - 1}
+          />
+        {/each}
       </div>
     </div>
     <!-- middle section -->
@@ -85,6 +90,3 @@
     </div>
   </div>
 </main>
-
-<style>
-</style>
