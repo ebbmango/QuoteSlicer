@@ -1,13 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=Noto+Serif+TC:wght@200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
 @import "tailwindcss";
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 :root {
-  font-family: "Noto Serif TC";
+  font-family: "Source Serif 4";
   color: rgb(200, 200, 200);
   font-weight: 300;
 }
 
 @theme {
+  --font-wenkai: "LXGW WenKai TC";
+  --font-ss4: "Source Serif 4";
+
   --color-umbra: #1f1f1f; /* Body Fill */
   --color-carbon: #2e2e2e; /* Backgrounds */
   --color-silver: #8f8f8f; /* Gray Text */
@@ -18,6 +31,9 @@
 
   --color-crystal: #7bcea2;
   --color-dark-crystal: #556124;
+
+  --color-aquarelle: #7bc6ce;
+  --color-dark-aquarelle: #255f6c;
 
   --color-neptune: #7b89ce;
   --color-dark-neptune: #212e6f;

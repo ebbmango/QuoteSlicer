@@ -4,15 +4,44 @@
 
 <main>
   <div class="flex h-dvh">
-    <!-- menu -->
-    <div class="min-w-[30.75%] bg-umbra lv-20 flex justify-center items-center">
-      <div class="w-[81.3%] h-[85%] rounded-[20px] bg-carbon"></div>
+    <!-- left-hand section -->
+    <div
+      class="w-full max-w-[30.75%] min-w-[340px] bg-umbra lv-20 flex justify-center items-center"
+    >
+      <!-- mappings menu -->
+      <div
+        class="flex flex-col w-[81.3%] h-[85%] rounded-[20px] bg-carbon px-[9.26%] py-[36px] gap-3.5 overflow-scroll no-scrollbar"
+      >
+        <div
+          class="min-h-[70px] w-full bg-greenish rounded-t-[10px] rounded-b-[2px]"
+        ></div>
+        <div class="min-h-[70px] w-full bg-crystal rounded-[2px]"></div>
+        <div class="min-h-[70px] w-full bg-aquarelle rounded-[2px]"></div>
+        <div class="min-h-[70px] w-full bg-neptune rounded-[2px]"></div>
+        <div class="min-h-[70px] w-full bg-wisteria rounded-[2px]"></div>
+        <div class="min-h-[70px] w-full bg-mauve rounded-[2px]"></div>
+        <div class="min-h-[70px] w-full bg-coral rounded-[2px]"></div>
+        <div class="min-h-[70px] w-full bg-leon rounded-[2px]"></div>
+        <div
+          class="min-h-[70px] w-full bg-chamois rounded-b-[10px] rounded-t-[2px]"
+        ></div>
+      </div>
     </div>
-    <!-- text -->
-    <div class="w-full bg-umbra lv-20 flex-col justify-center">
-      <div class="flex flex-col w-full max-h-[50%] h-full"></div>
-
-      <!-- input form -->
+    <!-- middle section -->
+    <div class="w-full min-w-[400px] bg-umbra lv-20 flex-col justify-center">
+      <!-- quote section -->
+      <div
+        class="flex flex-col w-full max-h-[50%] h-full text-center gap-3 justify-center pt-[15dvh]"
+      >
+        <p class="font-wenkai text-[28px]">一像天。冂像雲。水从雲下也。</p>
+        <p class="italic text-[16px]">
+          <span class="font-wenkai not-italic">一</span> represents the sky.
+          <span class="font-wenkai not-italic">冂</span> represents a cloud. Water
+          is flowing down from the sky.
+        </p>
+        <p class="text-[13px] text-silver">Source</p>
+      </div>
+      <!-- form section -->
       <div
         class="flex flex-col w-full max-h-[50%] h-full justify-end items-center"
       >
@@ -46,9 +75,13 @@
         </div>
       </div>
     </div>
-    <!-- json -->
-    <div class="min-w-[30.75%] bg-umbra lv-20 flex justify-center items-center">
-      <div class="w-[81.3%] h-[85%] rounded-[20px] bg-carbon"></div>
+    <!-- right-hand section -->
+
+    <div
+      class="w-full flex-col max-w-[30.75%] min-w-[340px] bg-umbra lv-20 flex justify-end items-center"
+    >
+      <span class="text-silver text-[14px] mb-3">Resulting JSON</span>
+      <div class="w-[81.3%] h-[85%] rounded-[20px] mb-[7.5dvh] bg-carbon"></div>
     </div>
   </div>
 </main>
