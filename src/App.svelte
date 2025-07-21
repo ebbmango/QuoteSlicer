@@ -1,7 +1,19 @@
 <script lang="ts">
   import MapGroup from "./lib/MapGroup.svelte";
 
-  let groups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  let groups = [
+    { hanzi: "一", pinyin: "yī" },
+    { hanzi: "像", pinyin: "xiàng" },
+    { hanzi: "天", pinyin: "tiān" },
+    { hanzi: "冂", pinyin: "jiōng" },
+    { hanzi: "像", pinyin: "xiàng" },
+    { hanzi: "雲", pinyin: null },
+    { hanzi: "水", pinyin: "shuǐ" },
+    { hanzi: "从", pinyin: "cóng" },
+    { hanzi: "雲", pinyin: "yún" },
+    { hanzi: "下", pinyin: "xià" },
+    { hanzi: "也", pinyin: "yě" },
+  ];
 </script>
 
 <main>
@@ -11,17 +23,18 @@
       class="w-full max-w-[30.75%] min-w-[340px] bg-umbra lv-20 flex justify-center items-center"
     >
       <!-- mappings menu -->
-      <div
+      <ol
         class="flex flex-col w-[81.3%] h-[85%] rounded-[20px] bg-carbon px-[9.26%] py-[36px] gap-3.5 overflow-scroll no-scrollbar"
       >
-        {#each groups as _, i}
+        {#each groups as group, i}
           <MapGroup
+            {group}
             index={i}
             isFirst={i === 0}
             isLast={i === groups.length - 1}
           />
         {/each}
-      </div>
+      </ol>
     </div>
     <!-- middle section -->
     <div class="w-full min-w-[400px] bg-umbra lv-20 flex-col justify-center">
@@ -72,7 +85,6 @@
       </div>
     </div>
     <!-- right-hand section -->
-
     <div
       class="w-full flex-col max-w-[30.75%] min-w-[340px] bg-umbra lv-20 flex justify-end items-center"
     >

@@ -28,15 +28,15 @@
 
   --color-greenish: #bece7b;
   --color-light-greenish: #f3ffc2;
-  --color-dark-greenish: #556124;
+  --color-dark-greenish: #556124; 
 
   --color-crystal: #7bcea2;
   --color-light-crystal: #c2ffde;
-  --color-dark-crystal: #556124;
+  --color-dark-crystal: #556124; /* [!!] change later --- make darker */
 
   --color-aquarelle: #7bc6ce;
   --color-light-aquarelle: #c2f9ff;
-  --color-dark-aquarelle: #255f6c;
+  --color-dark-aquarelle: #255f6c; /* [!!] change later --- make darker */
 
   --color-neptune: #7b89ce;
   --color-light-neptune: #c2ccff;
