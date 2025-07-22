@@ -118,13 +118,15 @@
     </div>
     <!-- Pinyin Section -->
     <div class="flex w-full h-full max-w-[34%] justify-center items-center">
-      <span
-        class="text-[16px] font-normal"
+      <input
+        placeholder="Empty"
+        type="text"
+        name="pinyin"
+        id="pinyin"
+        class="text-[16px] font-normal text-center w-full focus:outline-none focus:ring-0"
         style:color={darkColor}
-        style:opacity={"100%"}
-      >
-        {pinyin(hanzi) || "Empty"}
-      </span>
+        value={pinyin(hanzi)}
+      />
     </div>
     <!-- Group Number Section -->
     <div class="flex w-full h-full max-w-[20%] justify-end items-center">
