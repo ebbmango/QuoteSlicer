@@ -22,6 +22,14 @@
   let showDelete = $state(false);
   let itemEl: HTMLDivElement;
 
+  // Input mode management
+  let isTrashFocused = $state(false);
+  let isInputFocused = $state(false);
+  let hideTimeout: number | null = null;
+
+  // Component-wide input mode state
+  let inputMode = $state<'mouse' | 'keyboard'>('mouse');
+
   const ANIMATION_CONFIG = {
     duration: 0.3,
     ease: "power2.out",
@@ -49,6 +57,60 @@
   const mixedDark = `color-mix(in srgb, var(--color-dark-${color}) 40%, transparent)`;
   const mixedBg = `color-mix(in srgb, var(--color-${color}) 20%, transparent)`;
 
+  // Listen for global mouse movement to switch to mouse mode
+  $effect(() => {
+    function handleMouseMove() {
+      if (inputMode !== 'mouse') {
+        inputMode = 'mouse';
+        // Reset keyboard-specific states when switching to mouse mode
+        if (!hover) {
+          showDelete = false;
+        }
+      }
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+      // Tab key indicates keyboard navigation
+      if (e.key === 'Tab') {
+        if (inputMode !== 'keyboard') {
+          inputMode = 'keyboard';
+          // Reset mouse-specific states when switching to keyboard mode
+          hover = false;
+        }
+      }
+    }
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
+  // Handle showing/hiding based on current input mode
+  $effect(() => {
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      hideTimeout = null;
+    }
+
+    if (inputMode === 'keyboard') {
+      // Keyboard mode: show if trash is focused, hide with delay if neither is focused
+      if (isTrashFocused) {
+        showDelete = true;
+      } else if (!isTrashFocused && !isInputFocused) {
+        hideTimeout = setTimeout(() => {
+          showDelete = false;
+        }, 50);
+      }
+    } else {
+      // Mouse mode: controlled by hover state
+      // The hover handlers will manage showDelete directly
+    }
+  });
+
   // Animation effect
   $effect(() => {
     if (!itemEl) return;
@@ -73,16 +135,42 @@
 
   // Event handlers
   function handleMouseEnter() {
-    hover = true;
+    if (inputMode === 'mouse') {
+      hover = true;
+    }
   }
 
   function handleMouseLeave() {
-    hover = false;
-    showDelete = false;
+    if (inputMode === 'mouse') {
+      hover = false;
+      showDelete = false;
+    }
   }
 
   function handleDeleteHover() {
-    showDelete = true;
+    if (inputMode === 'mouse') {
+      showDelete = true;
+    }
+  }
+
+  function handleInputFocusIn() {
+    isInputFocused = true;
+    if (inputMode === 'keyboard') {
+      // Don't show delete button when focusing on input in keyboard mode
+    }
+  }
+
+  function handleInputFocusOut() {
+    isInputFocused = false;
+  }
+
+  function handleTrashFocusIn() {
+    isTrashFocused = true;
+    // Delete button will be shown by the effect
+  }
+
+  function handleTrashFocusOut() {
+    isTrashFocused = false;
   }
 
   // function handleDelete() {
@@ -126,6 +214,8 @@
         class="text-[16px] font-normal text-center w-full focus:outline-none focus:ring-0"
         style:color={darkColor}
         value={pinyin(hanzi)}
+        onfocusin={handleInputFocusIn}
+        onfocusout={handleInputFocusOut}
       />
     </div>
     <!-- Group Number Section -->
@@ -141,12 +231,12 @@
     <!-- Close Symbol Section -->
     <section class="flex w-full h-full max-w-[13%] justify-center items-center">
       <button
+        tabindex={-1}
         type="button"
-        tabindex={0}
         onmouseenter={handleDeleteHover}
         class="w-4 h-4 flex items-center justify-center rounded transition-all duration-200 hover:scale-110"
-        style:opacity={hover && !showDelete ? "100%" : "0"}
-        style:pointer-events={hover && !showDelete ? "auto" : "none"}
+        style:opacity={hover && !showDelete && inputMode === 'mouse' ? "100%" : "0"}
+        style:pointer-events={hover && !showDelete && inputMode === 'mouse' ? "auto" : "none"}
         aria-label="Show delete option"
       >
         <svg
@@ -166,8 +256,11 @@
     onclick={() => {
       // code comes here
     }}
-    class="absolute right-[14px] top-1/2 -translate-y-1/2 w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:brightness-110"
+    onfocusin={handleTrashFocusIn}
+    onfocusout={handleTrashFocusOut}
+    class="absolute right-[14px] top-1/2 -translate-y-1/2 w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:brightness-105 focus:outline-0 focus:ring-2 focus:scale-105"
     style:background-color={backgroundColor}
+    style:--tw-ring-color={lightColor}
     style:opacity={showDelete ? "100%" : "0"}
     style:pointer-events={showDelete ? "auto" : "none"}
     aria-label="Delete group {index}"
