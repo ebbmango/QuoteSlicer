@@ -41,7 +41,12 @@
   ];
 
   const color = COLORS[index % COLORS.length];
-  const bgColor = `var(--color-${color})`;
+
+  const backgroundColor = `var(--color-${color})`;
+  const lightColor = `var(--color-light-${color})`;
+  const darkColor = `var(--color-dark-${color})`;
+  const mixedDark = `color-mix(in srgb, var(--color-dark-${color}) 40%, transparent)`;
+  const mixedBg = `color-mix(in srgb, var(--color-${color}) 20%, transparent)`;
 
   // Animation effect
   $effect(() => {
@@ -88,8 +93,8 @@
   role="listitem"
   onmouseenter={handleMouseEnter}
   onmouseleave={handleMouseLeave}
-  class="flex min-h-[70px] w-full relative overflow-hidden transition-colors duration-200"
-  style="background-color: color-mix(in srgb, var(--color-{color}) 20%, transparent);"
+  class="flex min-h-[70px] w-full relative overflow-hidden transition duration-200"
+  style:background-color={mixedBg}
   style:border-top-left-radius={borderRadius.top}
   style:border-top-right-radius={borderRadius.top}
   style:border-bottom-left-radius={borderRadius.bottom}
@@ -98,7 +103,7 @@
   <div
     bind:this={itemEl}
     class="flex min-h-[70px] w-full relative z-10"
-    style="background-color: var(--color-{color});"
+    style:background-color={backgroundColor}
     style:border-top-left-radius={borderRadius.top}
     style:border-top-right-radius={borderRadius.top}
     style:border-bottom-left-radius={borderRadius.bottom}
@@ -106,7 +111,7 @@
   >
     <!-- Hanzi Section -->
     <div class="flex w-full h-full max-w-[33%] justify-center items-center">
-      <span class="text-[28px]" style="color: var(--color-light-{color})">
+      <span class="text-[28px]" style:color={lightColor}>
         {group.hanzi}
       </span>
     </div>
@@ -114,7 +119,7 @@
     <div class="flex w-full h-full max-w-[34%] justify-center items-center">
       <span
         class="text-[16px] font-normal"
-        style="color: var(--color-dark-{color});"
+        style:color={darkColor}
         style:opacity={group.pinyin ? "100%" : "40%"}
       >
         {group.pinyin || "Empty"}
@@ -124,12 +129,8 @@
     <div class="flex w-full h-full max-w-[20%] justify-end items-center">
       <span
         class="text-[13px] font-normal px-2 rounded"
-        style="
-        background-color: color-mix(in srgb, var(--color-dark-{COLORS[
-          index % 9
-        ]}) 40%, transparent);
-        color: var(--color-light-{color})
-      "
+        style:background-color={mixedDark}
+        style:color={lightColor}
       >
         {String(index + 1).padStart(2, "0")}
       </span>
@@ -150,10 +151,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox={icons.xmark.viewBox}
         >
-          <path
-            style="fill: color-mix(in srgb, var(--color-dark-{color}) 40%, transparent);"
-            d={icons.xmark.path}
-          />
+          <path style:fill={mixedDark} d={icons.xmark.path} />
         </svg>
       </button>
     </section>
@@ -166,7 +164,7 @@
       // code comes here
     }}
     class="absolute right-[14px] top-1/2 -translate-y-1/2 w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:brightness-110"
-    style="background-color: var(--color-{color});"
+    style:background-color={backgroundColor}
     style:opacity={showDelete ? "100%" : "0"}
     style:pointer-events={showDelete ? "auto" : "none"}
     aria-label="Delete group {group.hanzi}"
@@ -176,7 +174,7 @@
       xmlns="http://www.w3.org/2000/svg"
       viewBox={icons.trash.viewBox}
     >
-      <path style="fill: var(--color-light-{color});" d={icons.trash.path} />
+      <path style:fill={lightColor} d={icons.trash.path} />
     </svg>
   </button>
 </li>

@@ -15,20 +15,10 @@
   font-family: "Source Serif 4";
   color: rgb(200, 200, 200);
   font-weight: 300;
-}
-
-@theme {
-  --font-wenkai: "LXGW WenKai TC";
-  --font-ss4: "Source Serif 4";
-
-  --color-umbra: #1f1f1f; /* Body Fill */
-  --color-carbon: #2e2e2e; /* Backgrounds */
-  --color-silver: #8f8f8f; /* Gray Text */
-  --color-steel: #4a4a4a; /* Input Fields */
 
   --color-greenish: #bece7b;
   --color-light-greenish: #f3ffc2;
-  --color-dark-greenish: #556124; 
+  --color-dark-greenish: #556124;
 
   --color-crystal: #7bcea2;
   --color-light-crystal: #c2ffde;
@@ -61,4 +51,14 @@
   --color-chamois: #cebe7b;
   --color-light-chamois: #fff3c2;
   --color-dark-chamois: #4d4213;
+}
+
+@theme {
+  --font-wenkai: "LXGW WenKai TC";
+  --font-ss4: "Source Serif 4";
+
+  --color-umbra: #1f1f1f; /* Body Fill */
+  --color-carbon: #2e2e2e; /* Backgrounds */
+  --color-silver: #8f8f8f; /* Gray Text */
+  --color-steel: #4a4a4a; /* Input Fields */
 }
