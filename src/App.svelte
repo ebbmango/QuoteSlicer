@@ -1,19 +1,19 @@
 <script lang="ts">
   import MapGroup from "./lib/MapGroup.svelte";
 
-  let groups = [
-    { hanzi: "一", pinyin: "yī" },
-    { hanzi: "像", pinyin: "xiàng" },
-    { hanzi: "天", pinyin: "tiān" },
-    { hanzi: "冂", pinyin: "jiōng" },
-    { hanzi: "像", pinyin: "xiàng" },
-    { hanzi: "雲", pinyin: null },
-    { hanzi: "水", pinyin: "shuǐ" },
-    { hanzi: "从", pinyin: "cóng" },
-    { hanzi: "雲", pinyin: "yún" },
-    { hanzi: "下", pinyin: "xià" },
-    { hanzi: "也", pinyin: "yě" },
-  ];
+  let hanzis = $state([
+    "一",
+    "像",
+    "天",
+    "冂",
+    "像",
+    "雲",
+    "水",
+    "从",
+    "雲",
+    "下",
+    "也",
+  ]);
 </script>
 
 <main>
@@ -26,12 +26,12 @@
       <ol
         class="flex flex-col w-[81.3%] h-[85%] rounded-[20px] bg-carbon px-[9.26%] py-[36px] gap-3.5 overflow-scroll no-scrollbar"
       >
-        {#each groups as group, i}
+        {#each hanzis as hanzi, i}
           <MapGroup
-            {group}
+            {hanzi}
             index={i}
             isFirst={i === 0}
-            isLast={i === groups.length - 1}
+            isLast={i === hanzis.length - 1}
           />
         {/each}
       </ol>

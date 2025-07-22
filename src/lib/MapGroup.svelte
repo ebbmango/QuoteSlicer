@@ -1,16 +1,17 @@
 <script lang="ts">
   import { gsap } from "gsap";
   import { icons } from "./constants/icons";
+  import { pinyin } from "pinyin";
 
   type Props = {
-    group: { hanzi: string; pinyin: string | null };
+    hanzi: string;
     index: number;
     isFirst: boolean;
     isLast: boolean;
     // onDelete?: (group: { hanzi: string; pinyin: string | null }) => void;
   };
 
-  let { group, index, isFirst, isLast }: Props = $props();
+  let { hanzi, index, isFirst, isLast }: Props = $props();
 
   const borderRadius = {
     top: isFirst ? "10px" : "2px",
@@ -112,7 +113,7 @@
     <!-- Hanzi Section -->
     <div class="flex w-full h-full max-w-[33%] justify-center items-center">
       <span class="text-[28px]" style:color={lightColor}>
-        {group.hanzi}
+        {hanzi}
       </span>
     </div>
     <!-- Pinyin Section -->
@@ -120,9 +121,9 @@
       <span
         class="text-[16px] font-normal"
         style:color={darkColor}
-        style:opacity={group.pinyin ? "100%" : "40%"}
+        style:opacity={"100%"}
       >
-        {group.pinyin || "Empty"}
+        {pinyin(hanzi) || "Empty"}
       </span>
     </div>
     <!-- Group Number Section -->
@@ -167,7 +168,7 @@
     style:background-color={backgroundColor}
     style:opacity={showDelete ? "100%" : "0"}
     style:pointer-events={showDelete ? "auto" : "none"}
-    aria-label="Delete group {group.hanzi}"
+    aria-label="Delete group {index}"
   >
     <svg
       class="w-[14px] h-[14px]"
