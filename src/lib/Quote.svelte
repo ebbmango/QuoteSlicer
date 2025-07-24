@@ -70,9 +70,7 @@
   //   });
 </script>
 
-<div
-  class="flex flex-col w-full max-h-[50%] h-full text-center gap-3 justify-center pt-[15dvh]"
->
+<div class="flex flex-col text-center gap-3 justify-center">
   <p
     class="font-wenkai text-[28px]"
     style:opacity={quote.length > 0 ? "100%" : "20%"}

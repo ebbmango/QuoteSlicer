@@ -1,17 +1,51 @@
 <script lang="ts">
+  import { icons } from "./lib/constants/icons";
   import MapGroup from "./lib/MapGroup.svelte";
+  import ModeSelector from "./lib/ModeSelector.svelte";
   import Quote from "./lib/Quote.svelte";
 
   // let hanzis = $state([]);
-  let hanzis = $state(["一", "像", "天", "冂", "像", "雲", "水", "从", "雲", "下", "也"]);
+  let hanzis = $state([
+    "一",
+    "像",
+    "天",
+    "冂",
+    "像",
+    "雲",
+    "水",
+    "从",
+    "雲",
+    "下",
+    "也",
+  ]);
   let quote = $state<string>("一像天。冂像雲。水从雲下也。");
   let trans = $state<string>(
     "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
   );
 
-  // $effect(() => {
-  //   console.log(quote);
-  // });
+  const modes = [
+    {
+      // Link
+      icon: icons.highlighter,
+      label: "Link hanzis to their translations",
+    },
+    {
+      // Format
+      icon: icons.paragraph,
+      label: "Format text display",
+    },
+    {
+      // Preview
+      icon: icons.eye,
+      label: "Preview final result",
+    },
+  ];
+
+  let currentModeIndex = $state(1); // Default to format mode
+
+  const handleModeChange = (newIndex: number) => {
+    currentModeIndex = newIndex;
+  };
 </script>
 
 <main>
@@ -36,8 +70,26 @@
     </div>
     <!-- middle section -->
     <div class="w-full min-w-[400px] bg-umbra lv-20 flex-col justify-center">
+      <!-- mode selection -->
+      <div
+        class="flex flex-col w-full max-h-[10%] h-full justify-around items-center"
+      >
+        <!-- Icons (mode selectors) -->
+        <div class="w-full flex gap-3 justify-center fill-[#BEBEBE]">
+          <ModeSelector
+            {modes}
+            currentIndex={currentModeIndex}
+            onModeChange={handleModeChange}
+          />
+        </div>
+      </div>
       <!-- quote section -->
-      <Quote {quote} {trans} />
+      <div
+        class="flex flex-col w-full max-h-[40%] h-full justify-around items-center"
+      >
+        <Quote {quote} {trans} />
+      </div>
+
       <!-- form section -->
       <div
         class="flex flex-col w-full max-h-[50%] h-full justify-end items-center"
