@@ -2,6 +2,7 @@
   import { gsap } from "gsap";
   import { icons } from "./constants/icons";
   import { pinyin } from "pinyin";
+  import { COLORS } from "./constants/colors";
 
   type Props = {
     hanzi: string;
@@ -36,18 +37,6 @@
     collapsedWidth: "80%",
     expandedWidth: "100%",
   } as const;
-
-  const COLORS = [
-    "greenish",
-    "crystal",
-    "aquarelle",
-    "neptune",
-    "wisteria",
-    "mauve",
-    "coral",
-    "leon",
-    "chamois",
-  ];
 
   const color = COLORS[index % COLORS.length];
 
