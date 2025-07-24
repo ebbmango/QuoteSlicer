@@ -45,7 +45,6 @@
   const darkColor = `var(--color-dark-${color})`;
   const mixedDark = `color-mix(in srgb, var(--color-dark-${color}) 40%, transparent)`;
   const mixedBg = `color-mix(in srgb, var(--color-${color}) 20%, transparent)`;
-<<<<<<< HEAD
 
   // Listen for global mouse movement to switch to mouse mode
   $effect(() => {
@@ -100,8 +99,6 @@
       // The hover handlers will manage showDelete directly
     }
   });
-=======
->>>>>>> 8037db632c39227d3b7fa215e4e5680f595b982e
 
   // Animation effect
   $effect(() => {
@@ -193,16 +190,11 @@
     <!-- Hanzi Section -->
     <div class="flex w-full h-full max-w-[33%] justify-center items-center">
       <span class="text-[28px]" style:color={lightColor}>
-<<<<<<< HEAD
         {hanzi}
-=======
-        {group.hanzi}
->>>>>>> 8037db632c39227d3b7fa215e4e5680f595b982e
       </span>
     </div>
     <!-- Pinyin Section -->
     <div class="flex w-full h-full max-w-[34%] justify-center items-center">
-<<<<<<< HEAD
       <input
         placeholder="Empty"
         type="text"
@@ -214,15 +206,6 @@
         onfocusin={handleInputFocusIn}
         onfocusout={handleInputFocusOut}
       />
-=======
-      <span
-        class="text-[16px] font-normal"
-        style:color={darkColor}
-        style:opacity={group.pinyin ? "100%" : "40%"}
-      >
-        {group.pinyin || "Empty"}
-      </span>
->>>>>>> 8037db632c39227d3b7fa215e4e5680f595b982e
     </div>
     <!-- Group Number Section -->
     <div class="flex w-full h-full max-w-[20%] justify-end items-center">
