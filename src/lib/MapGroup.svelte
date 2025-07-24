@@ -247,7 +247,7 @@
     }}
     onfocusin={handleTrashFocusIn}
     onfocusout={handleTrashFocusOut}
-    class="absolute right-[14px] top-1/2 -translate-y-1/2 w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:brightness-105 focus:outline-0 focus:ring-2 focus:scale-105"
+    class="absolute right-3 top-1/2 -translate-y-1/2 w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:brightness-105 focus:outline-0 focus:ring-2 focus:scale-105"
     style:background-color={backgroundColor}
     style:--tw-ring-color={lightColor}
     style:opacity={showDelete ? "100%" : "0"}

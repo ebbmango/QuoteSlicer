@@ -1,19 +1,17 @@
 <script lang="ts">
   import MapGroup from "./lib/MapGroup.svelte";
+  import Quote from "./lib/Quote.svelte";
 
-  let hanzis = $state([
-    "一",
-    "像",
-    "天",
-    "冂",
-    "像",
-    "雲",
-    "水",
-    "从",
-    "雲",
-    "下",
-    "也",
-  ]);
+  // let hanzis = $state([]);
+  let hanzis = $state(["一", "像", "天", "冂", "像", "雲", "水", "从", "雲", "下", "也"]);
+  let quote = $state<string>("一像天。冂像雲。水从雲下也。");
+  let trans = $state<string>(
+    "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
+  );
+
+  // $effect(() => {
+  //   console.log(quote);
+  // });
 </script>
 
 <main>
@@ -39,17 +37,7 @@
     <!-- middle section -->
     <div class="w-full min-w-[400px] bg-umbra lv-20 flex-col justify-center">
       <!-- quote section -->
-      <div
-        class="flex flex-col w-full max-h-[50%] h-full text-center gap-3 justify-center pt-[15dvh]"
-      >
-        <p class="font-wenkai text-[28px]">一像天。冂像雲。水从雲下也。</p>
-        <p class="italic text-[16px]">
-          <span class="font-wenkai not-italic">一</span> represents the sky.
-          <span class="font-wenkai not-italic">冂</span> represents a cloud. Water
-          is flowing down from the sky.
-        </p>
-        <p class="text-[13px] text-silver">Source</p>
-      </div>
+      <Quote {quote} {trans} />
       <!-- form section -->
       <div
         class="flex flex-col w-full max-h-[50%] h-full justify-end items-center"
@@ -62,6 +50,7 @@
               >Original Quote</label
             >
             <input
+              bind:value={quote}
               type="text"
               name="quote"
               id="quote"
@@ -74,6 +63,7 @@
               >Translation Text</label
             >
             <input
+              bind:value={trans}
               type="text"
               name="quote"
               id="quote"
