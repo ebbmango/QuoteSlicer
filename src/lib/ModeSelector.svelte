@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { IconSVG } from "./constants/types";
+  import { interactionMode } from "./contexts/interactionMode.svelte";
 
   interface ModeConfig {
     icon: IconSVG;
@@ -7,33 +8,39 @@
   }
 
   interface Props {
-    modes: ModeConfig[];
-    currentIndex: number;
+    mode: ModeConfig;
+    index: number;
+    activeIndex: number;
     onModeChange: (index: number) => void;
   }
 
-  let { modes, currentIndex, onModeChange }: Props = $props();
+  let { mode, index, activeIndex, onModeChange }: Props = $props();
 
-  // TODO: Learn CONTEXT API to use the same logic as in the MapGroup to
-  // distinguish between mouse and keyboard interactions to make sure that
-  // the buttons only scale once, be it with mouse hover or keyboard focus.
+  let isHover = $state(false);
+  let isFocus = $state(false);
+
+  // Only activate one interaction style at a time
+  const isActive = () =>
+    (interactionMode.isMouse && isHover) ||
+    (interactionMode.isKeyboard && isFocus);
 </script>
 
-{#each modes as mode, i}
-  <button
-    class="flex focus:ring-0 focus:outline-none focus:scale-120 duration-200"
-    type="button"
-    aria-label={mode.label}
-    onclick={() => {
-      onModeChange(i);
-    }}
+<button
+  class="flex focus:ring-0 focus:outline-none duration-200"
+  class:scale-120={isActive()}
+  type="button"
+  aria-label={mode.label}
+  onclick={() => onModeChange(index)}
+  onmouseenter={() => (isHover = true)}
+  onmouseleave={() => (isHover = false)}
+  onfocusin={() => (isFocus = true)}
+  onfocusout={() => (isFocus = false)}
+>
+  <svg
+    class="w-5 duration-200 hover:scale-120"
+    viewBox={mode.icon.viewBox}
+    style:opacity={activeIndex === index ? "100%" : "30%"}
   >
-    <svg
-      class="w-5 duration-200 hover:scale-120"
-      viewBox={mode.icon.viewBox}
-      style:opacity={currentIndex === i ? "100%" : "30%"}
-    >
-      <path d={mode.icon.path} />
-    </svg>
-  </button>
-{/each}
+    <path d={mode.icon.path} />
+  </svg>
+</button>

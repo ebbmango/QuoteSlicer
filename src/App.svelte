@@ -3,6 +3,13 @@
   import MapGroup from "./lib/MapGroup.svelte";
   import ModeSelector from "./lib/ModeSelector.svelte";
   import Quote from "./lib/Quote.svelte";
+  import {
+    initModeTracking,
+    interactionMode,
+  } from "./lib/contexts/interactionMode.svelte";
+
+  initModeTracking();
+  $inspect(interactionMode.current);
 
   // let hanzis = $state([]);
   let hanzis = $state([
@@ -76,11 +83,14 @@
       >
         <!-- Icons (mode selectors) -->
         <div class="w-full flex gap-3 justify-center fill-[#BEBEBE]">
-          <ModeSelector
-            {modes}
-            currentIndex={currentModeIndex}
-            onModeChange={handleModeChange}
-          />
+          {#each modes as mode, i}
+            <ModeSelector
+              {mode}
+              index={i}
+              activeIndex={currentModeIndex}
+              onModeChange={handleModeChange}
+            />
+          {/each}
         </div>
       </div>
       <!-- quote section -->
