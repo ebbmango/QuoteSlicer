@@ -5,32 +5,45 @@
   import { COLORS } from "./constants/colors";
   import { interactionMode } from "./contexts/interactionMode.svelte";
 
+  // ===== TYPES =====
   type Props = {
     hanzi: string;
     index: number;
     isFirst: boolean;
     isLast: boolean;
-    // onDelete?: (group: { hanzi: string; pinyin: string | null }) => void;
   };
 
+  // ===== PROPS =====
   let { hanzi, index, isFirst, isLast }: Props = $props();
 
-  const borderRadius = {
-    top: isFirst ? "10px" : "2px",
-    bottom: isLast ? "10px" : "2px",
-  };
-
-  let hover = $state(false);
+  // ===== STATE =====
+  let hovering = $state(false);
+  let focusTrash = $state(false);
+  let focusInput = $state(false);
   let showDelete = $state(false);
   let itemEl: HTMLDivElement;
-
-  // Input mode management
-  let isTrashFocused = $state(false);
-  let isInputFocused = $state(false);
   let hideTimeout: number | null = null;
 
-  // Component-wide input mode state
+  // ===== COMPUTED VALUES =====
+  const focused = $derived(focusTrash || focusInput);
 
+  const showXmark = $derived(
+    hovering && !showDelete && interactionMode.isMouse
+  );
+
+  // ===== STYLING =====
+  const color = COLORS[index % COLORS.length];
+  const backgroundColor = `var(--color-${color})`;
+  const lightColor = `var(--color-light-${color})`;
+  const darkColor = `var(--color-dark-${color})`;
+  const mixedDark = `color-mix(in srgb, var(--color-dark-${color}) 40%, transparent)`;
+  const mixedBg = `color-mix(in srgb, var(--color-${color}) 20%, transparent)`;
+
+  const top = isFirst ? "10px" : "2px";
+  const bot = isLast ? "10px" : "2px";
+  const borderRadius = `${top} ${top} ${bot} ${bot}`;
+
+  // ===== CONSTANTS =====
   const ANIMATION_CONFIG = {
     duration: 0.3,
     ease: "power2.out",
@@ -38,22 +51,15 @@
     expandedWidth: "100%",
   } as const;
 
-  const color = COLORS[index % COLORS.length];
+  // ===== EFFECTS =====
 
-  const backgroundColor = `var(--color-${color})`;
-  const lightColor = `var(--color-light-${color})`;
-  const darkColor = `var(--color-dark-${color})`;
-  const mixedDark = `color-mix(in srgb, var(--color-dark-${color}) 40%, transparent)`;
-  const mixedBg = `color-mix(in srgb, var(--color-${color}) 20%, transparent)`;
-
-  interactionMode;
-
+  // Mouse/keyboard interaction mode handling
   $effect(() => {
-    if (interactionMode.isMouse && !hover) showDelete = false;
-    if (interactionMode.isKeyboard) hover = false;
+    if (interactionMode.isMouse && !hovering) showDelete = false;
+    if (interactionMode.isKeyboard) hovering = false;
   });
 
-  // Handle showing/hiding based on current input mode
+  // Keyboard mode delete button visibility
   $effect(() => {
     if (hideTimeout) {
       clearTimeout(hideTimeout);
@@ -61,21 +67,17 @@
     }
 
     if (interactionMode.isKeyboard) {
-      // Keyboard mode: show if trash is focused, hide with delay if neither is focused
-      if (isTrashFocused) {
+      if (focusTrash) {
         showDelete = true;
-      } else if (!isTrashFocused && !isInputFocused) {
+      } else if (!focused) {
         hideTimeout = setTimeout(() => {
           showDelete = false;
         }, 50);
       }
-    } else {
-      // Mouse mode: controlled by hover state
-      // The hover handlers will manage showDelete directly
     }
   });
 
-  // Animation effect
+  // GSAP animation for width and border radius
   $effect(() => {
     if (!itemEl) return;
 
@@ -97,66 +99,48 @@
     });
   });
 
-  // Event handlers
-  function handleMouseEnter() {
-    if (interactionMode.isMouse) hover = true;
+  // ===== EVENT HANDLERS =====
+  function handleMouseMove() {
+    hovering = true;
   }
 
   function handleMouseLeave() {
-    if (interactionMode.isMouse) {
-      hover = false;
-      showDelete = false;
-    }
+    hovering = false;
   }
 
   function handleDeleteHover() {
-    if (interactionMode.isMouse) showDelete = true;
+    showDelete = true;
   }
 
-  function handleInputFocusIn() {
-    isInputFocused = true;
-  }
-
-  function handleInputFocusOut() {
-    isInputFocused = false;
-  }
-
-  function handleTrashFocusIn() {
-    isTrashFocused = true;
-  }
-
-  function handleTrashFocusOut() {
-    isTrashFocused = false;
+  function handleDeleteClick() {
+    // Delete logic comes here
   }
 </script>
 
+<!-- Main List Item Container -->
 <li
   role="listitem"
-  onmouseenter={handleMouseEnter}
+  onmousemove={handleMouseMove}
   onmouseleave={handleMouseLeave}
   class="flex min-h-[70px] w-full relative overflow-hidden transition duration-200"
   style:background-color={mixedBg}
-  style:border-top-left-radius={borderRadius.top}
-  style:border-top-right-radius={borderRadius.top}
-  style:border-bottom-left-radius={borderRadius.bottom}
-  style:border-bottom-right-radius={borderRadius.bottom}
+  style:border-radius={borderRadius}
 >
+  <!-- Sliding Foreground Content -->
   <div
     bind:this={itemEl}
     class="flex min-h-[70px] w-full relative z-10"
     style:background-color={backgroundColor}
-    style:border-top-left-radius={borderRadius.top}
-    style:border-top-right-radius={borderRadius.top}
-    style:border-bottom-left-radius={borderRadius.bottom}
-    style:border-bottom-right-radius={borderRadius.bottom}
+    style:border-radius={borderRadius}
   >
-    <!-- Hanzi Section -->
+    <!-- Hanzi Display -->
     <div class="flex w-full h-full max-w-[33%] justify-center items-center">
       <span class="text-[28px]" style:color={lightColor}>
         {hanzi}
       </span>
     </div>
-    <!-- Pinyin Section -->
+
+    <!-- Pinyin Input -->
     <div class="flex w-full h-full max-w-[34%] justify-center items-center">
       <input
         placeholder="Empty"
@@ -166,11 +150,11 @@
         class="text-[16px] font-normal text-center w-full focus:outline-none focus:ring-0"
         style:color={darkColor}
         value={pinyin(hanzi)}
-        onfocusin={handleInputFocusIn}
-        onfocusout={handleInputFocusOut}
+        bind:focused={focusInput}
       />
     </div>
-    <!-- Group Number Section -->
+
+    <!-- Group Number Badge -->
     <div class="flex w-full h-full max-w-[20%] justify-end items-center">
       <span
         class="text-[13px] font-normal px-2 rounded"
@@ -180,19 +164,16 @@
         {String(index + 1).padStart(2, "0")}
       </span>
     </div>
-    <!-- Close Symbol Section -->
+
+    <!-- X Mark Trigger Button -->
     <section class="flex w-full h-full max-w-[13%] justify-center items-center">
       <button
         tabindex={-1}
         type="button"
         onmouseenter={handleDeleteHover}
         class="w-4 h-4 flex items-center justify-center rounded transition-all duration-200 hover:scale-110"
-        style:opacity={hover && !showDelete && interactionMode.isMouse
-          ? "100%"
-          : "0"}
-        style:pointer-events={hover && !showDelete && interactionMode.isMouse
-          ? "auto"
-          : "none"}
+        style:opacity={showXmark ? 1 : 0}
+        style:pointer-events={showXmark ? "auto" : "none"}
         aria-label="Show delete option"
       >
         <svg
@@ -206,18 +187,15 @@
     </section>
   </div>
 
-  <!-- Delete Button -->
+  <!-- Delete Action Button -->
   <button
     type="button"
-    onclick={() => {
-      // code comes here
-    }}
-    onfocusin={handleTrashFocusIn}
-    onfocusout={handleTrashFocusOut}
+    onclick={handleDeleteClick}
+    bind:focused={focusTrash}
     class="absolute right-3 top-1/2 -translate-y-1/2 w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:brightness-105 focus:outline-0 focus:ring-2 focus:scale-105"
     style:background-color={backgroundColor}
     style:--tw-ring-color={lightColor}
-    style:opacity={showDelete ? "100%" : "0"}
+    style:opacity={showDelete ? 1 : 0}
     style:pointer-events={showDelete ? "auto" : "none"}
     aria-label="Delete group {index}"
   >
