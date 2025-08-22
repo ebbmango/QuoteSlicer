@@ -12,22 +12,13 @@
   $inspect(interactionMode.current);
 
   // let hanzis = $state([]);
-  let hanzis = $state([
-    "一",
-    "像",
-    "天",
-    "冂",
-    "像",
-    "雲",
-    "水",
-    "从",
-    "雲",
-    "下",
-    "也",
-  ]);
   let quote = $state<string>("一像天。冂像雲。水从雲下也。");
   let trans = $state<string>(
     "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
+  );
+
+  let hanzis = $derived(
+    quote.split("").filter((c) => /[\u4E00-\u9FFF]/u.test(c))
   );
 
   const modes = [

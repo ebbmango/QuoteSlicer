@@ -1,3 +1,6 @@
+<!-- This is used to change between the three interaction modes: -->
+<!-- 1) Highlighting   //   2) Versification    //    3) Preview -->
+
 <script lang="ts">
   import type { IconSVG } from "./constants/types";
   import { interactionMode } from "./contexts/interactionMode.svelte";

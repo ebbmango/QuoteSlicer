@@ -31,9 +31,9 @@
     (color) => `color-mix(in srgb, var(--color-${color}) 72%, transparent)`
   );
 
-  // initially, a single paragraph holds all sentences
-  //   let paragraphs = $derived([sentences.map((s, i) => i)]);
-  let paragraphs = $state<number[][]>([[0, 1, 2]]);
+  const handleClick = () => {};
+
+  // let paragraphs = $state<number[][]>([[0], [1, 2]]);
 
   //   const a = [[1, 2][3]];
 
@@ -68,6 +68,18 @@
   //           }))
   //       );
   //   });
+
+  // initially, a single paragraph holds all sentences
+  let groups = $derived([sentences.map((s, i) => i)]);
+
+  let paragraphs = $state(structuredClone(groups));
+
+  // let paragraphs = $state(sentences.map((_, i) => [i]));
+  // let paragraphs = $state<number[][]>([[0], [1, 2]]);
+
+  $effect(() => {
+    // paragraphs = sentences.map((_, i) => [i]);
+  });
 </script>
 
 <div class="flex flex-col text-center gap-3 justify-center">
@@ -81,21 +93,55 @@
   <div class="flex flex-wrap justify-center gap-y-1">
     <!-- each "indices" is an array of indices of sentences -->
     <!-- in this layer, the grouping of sentences in a paragraph should happen -->
-    {#each paragraphs as indices, j}
+    {#each paragraphs as indices, paraNo}
       <!-- each index is an index of a sentence -->
       <!-- in this layer, each individual sentence should be rendered -->
       <div class="flex flex-wrap w-full justify-center gap-y-1">
-        {#each indices as index}
-          {#each sentences[index] as word, i}
-            <div
+        {#each indices as sentNo}
+          {#each sentences[sentNo] as word, i}
+            <button
               class="px-0.5"
               class:first={i === 0}
-              class:last={i === sentences[index].length - 1}
-              style:background-color={baseColors[(2 * j) % COLORS.length]}
-              style:color={darkColors[(2 * j) % COLORS.length]}
+              class:last={i === sentences[sentNo].length - 1}
+              style:background-color={baseColors[(2 * paraNo) % COLORS.length]}
+              style:color={darkColors[(2 * paraNo) % COLORS.length]}
+              onclick={() => {
+                // console.log(`paragraph no.${paraNo} clicked`);
+                // console.log(` sentence no.${sentNo} clicked`);
+                // console.log(paragraphs.flat())
+
+                // first: try only if it's the first
+                if (sentNo === 0) {
+                  // figure out: is it in or is it out?
+                  // there are groups, always
+                  // to find out whether it is in or out, I just have to find out in which group
+                  // the first sentence currently is, and then check if the size of the group is
+                  // 1 (alone/out) or more (together/in)
+
+                  const relevantGroup = paragraphs.filter((arr) =>
+                    arr.includes(sentNo)
+                  )[0];
+                  const isIn = relevantGroup.length > 1;
+                  // console.log(relevantGroup);
+                  // console.log(isIn);
+
+                  if (isIn) {
+                    // pop it out
+                    const groupIndex = paragraphs.findIndex(
+                      (group) => group == relevantGroup
+                    );
+                    paragraphs[groupIndex].shift();
+                    paragraphs.unshift([0]);
+                    console.log(paragraphs);
+                  } else {
+                    paragraphs.shift();
+                    paragraphs[0].unshift(0);
+                  }
+                }
+              }}
             >
               {word}
-            </div>
+            </button>
           {/each}
         {/each}
       </div>
