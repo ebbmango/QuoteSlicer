@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=Noto+Serif+TC:wght@200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
@@ -53,6 +55,7 @@
   --color-chamois: #cebe7b;
   --color-light-chamois: #fff3c2;
   --color-dark-chamois: #4d4213;
+  
 }
 
 @theme {
