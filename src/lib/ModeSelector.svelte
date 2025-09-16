@@ -1,49 +1,58 @@
-<!-- This is used to change between the three interaction modes: -->
-<!-- 1) Highlighting   //   2) Versification    //    3) Preview -->
-
 <script lang="ts">
-  import type { IconSVG } from "./constants/types";
-  import { interactionMode } from "./contexts/interactionMode.svelte";
+  import { icons } from "./constants/icons";
 
-  interface ModeConfig {
-    icon: IconSVG;
-    label?: string;
-  }
+  let show = $state(false);
 
-  interface Props {
-    mode: ModeConfig;
-    index: number;
-    activeIndex: number;
-    onModeChange: (index: number) => void;
-  }
-
-  let { mode, index, activeIndex, onModeChange }: Props = $props();
-
-  let isHover = $state(false);
-  let isFocus = $state(false);
-
-  // Only activate one interaction style at a time
-  const isActive = () =>
-    (interactionMode.isMouse && isHover) ||
-    (interactionMode.isKeyboard && isFocus);
+  const toggle = () => {
+    show = !show;
+  };
 </script>
 
-<button
-  class="flex focus:ring-0 focus:outline-none duration-200"
-  class:scale-120={isActive()}
-  type="button"
-  aria-label={mode.label}
-  onclick={() => onModeChange(index)}
-  onmouseenter={() => (isHover = true)}
-  onmouseleave={() => (isHover = false)}
-  onfocusin={() => (isFocus = true)}
-  onfocusout={() => (isFocus = false)}
+<!-- top row -->
+<div
+  class="flex gap-3 fill-tin h-[50%] duration-200 z-10"
 >
   <svg
     class="w-5 duration-200 hover:scale-120"
-    viewBox={mode.icon.viewBox}
-    style:opacity={activeIndex === index ? "100%" : "30%"}
+    viewBox={icons.highlighter.viewBox}
   >
-    <path d={mode.icon.path} />
+    <path d={icons.highlighter.path} />
   </svg>
-</button>
+  <svg
+    onclick={toggle}
+    class="w-5 duration-200 hover:scale-120"
+    viewBox={icons.paragraph.viewBox}
+  >
+    <path d={icons.paragraph.path} />
+  </svg>
+  <svg class="w-5 duration-200 hover:scale-120" viewBox={icons.eye.viewBox}>
+    <path d={icons.eye.path} />
+  </svg>
+</div>
+<!-- bottom row -->
+<!-- this should only be shown if the versification mode is active -->
+<div
+  class="flex gap-3 fill-tin h-[50%] animated"
+  class:-translate-y-4={show}
+  class:opacity-0={show}
+>
+  <svg
+    class="w-6 duration-200 hover:scale-120 rotate-90"
+    viewBox={icons.join.viewBox}
+  >
+    <path d={icons.join.path} />
+  </svg>
+  <svg
+    class="w-6 duration-200 hover:scale-120 rotate-90"
+    viewBox={icons.separate.viewBox}
+  >
+    <path d={icons.separate.path} />
+  </svg>
+</div>
+
+<style>
+    .animated {
+        transition: opacity 150ms ease-in, translate 500ms ease;
+    }
+
+</style>

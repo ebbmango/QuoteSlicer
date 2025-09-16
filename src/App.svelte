@@ -1,25 +1,24 @@
 <script lang="ts">
-  import { icons } from "./lib/constants/icons";
-  import MapGroup from "./lib/MapGroup.svelte";
+  import type { Theme } from "./lib/constants/types";
+  import { setContext } from "svelte";
+
+  let theme: Theme = $state({
+    dark: true,
+  });
+
+  setContext("theme", theme);
+
+  import Form from "./lib/Form.svelte";
+  import LightSwitch from "./lib/LightSwitch.svelte";
+
   import ModeSelector from "./lib/ModeSelector.svelte";
   import Quote from "./lib/Quote.svelte";
 
-  let move = $state(false);
-  let dark = $state(false);
-
-  const toggleMove = () => {
-    move = !move;
-  };
-
-  const toggleDark = () => {
-    dark = !dark;
-  };
-
-  $effect(() => console.log(dark));
+  let move = $state(true);
 </script>
 
 <main>
-  <div class="flex h-dvh" class:dark>
+  <div class="flex h-dvh" class:dark={theme.dark}>
     <!-- LEFT -->
     <div
       id="left-bounding-box"
@@ -37,9 +36,24 @@
     </div>
     <!-- MIDDLE -->
     <div
-      class="w-full min-w-[400px] bg-white dark:bg-umbra lv-20 flex justify-center items-center gap-2 duration-500"
+      class="w-full min-w-[400px] bg-white dark:bg-umbra flex flex-col justify-center items-center duration-500"
     >
-      <button
+      <!-- BUTTONS -->
+      <div class="flex flex-col w-full min-h-[10%] items-center gap-2 mt-6">
+        <div class="flex w-full justify-center h-[33%]">
+          <LightSwitch />
+        </div>
+        <div class="w-full flex h-[66%] flex-col gap-1 items-center">
+          <ModeSelector />
+        </div>
+      </div>
+      <!-- QUOTE -->
+      <Quote trans={""} quote={""} source={""} />
+      <!-- FORM -->
+      <div class="flex justify-center w-full h-full max-h-[40%]">
+        <Form />
+      </div>
+      <!-- <button
         class="bg-blue-400 w-20 h-10 rounded-lg text-white active:bg-blue-500"
         type="button"
         onclick={toggleMove}>Move!</button
@@ -48,7 +62,7 @@
         class="bg-blue-400 w-20 h-10 rounded-lg text-white active:bg-blue-500"
         type="button"
         onclick={toggleDark}>Dark!</button
-      >
+      > -->
     </div>
     <!-- RIGHT -->
     <div
