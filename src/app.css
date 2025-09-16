@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=Noto+Serif+TC:wght@200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;700&family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+JP:wght@200..900&family=Noto+Serif+TC:wght@200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
-
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
@@ -13,11 +12,42 @@
   }
 }
 
+/* Fonts */
+
+.font-tc-sans {
+  font-family: "Noto Sans TC", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.font-tc-serif {
+  font-family: "Noto Serif TC", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.font-tc-wenkai {
+  font-family: "LXGW WenKai TC", cursive;
+  font-style: normal;
+}
+
+.font-source-serif-4 {
+  font-family: "Source Serif 4", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.font-jp-serif {
+  font-family: "Noto Serif JP", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* Themes */
+
 :root {
   color-sheme: light dark;
-
-  font-family: "Source Serif 4";
-  color: rgb(200, 200, 200);
+  font-family: "Source Serif 4", "Noto Sans TC", serif;
   font-weight: 300;
 
   --color-greenish: #bece7b;
@@ -55,15 +85,16 @@
   --color-chamois: #cebe7b;
   --color-light-chamois: #fff3c2;
   --color-dark-chamois: #4d4213;
-  
 }
 
 @theme {
-  --font-wenkai: "LXGW WenKai TC";
-  --font-ss4: "Source Serif 4";
-
-  --color-umbra: #1f1f1f; /* Body Fill */
-  --color-carbon: #2e2e2e; /* Backgrounds */
-  --color-silver: #8f8f8f; /* Gray Text */
   --color-steel: #4a4a4a; /* Input Fields */
+
+  --color-umbra: #1f1f1f; /* dark: Body Fill */
+  --color-carbon: #2e2e2e; /* dark: Backgrounds */
+
+  --color-silver: #8f8f8f; /* Gray Text */
+
+  --color-whitesmoke: #f4f4f4; /* light: Backgrounds */
+  --color-tin: #bebebe;
 }
