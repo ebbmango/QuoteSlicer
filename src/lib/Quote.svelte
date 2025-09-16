@@ -106,36 +106,38 @@
               style:background-color={baseColors[(2 * paraNo) % COLORS.length]}
               style:color={darkColors[(2 * paraNo) % COLORS.length]}
               onclick={() => {
-                // console.log(`paragraph no.${paraNo} clicked`);
-                // console.log(` sentence no.${sentNo} clicked`);
-                // console.log(paragraphs.flat())
+                const lastSentNo = paragraphs.flat().length - 1;
+
+                // check if the sentence is already part of a paragraph
+                const relevantGroup = paragraphs.filter((arr) =>
+                  arr.includes(sentNo)
+                )[0];
+                const isIn = relevantGroup.length > 1;
+
+                // finds the group of which it is a part
+                const groupIndex = paragraphs.findIndex(
+                  (group) => group == relevantGroup
+                );
 
                 // first: try only if it's the first
                 if (sentNo === 0) {
-                  // figure out: is it in or is it out?
-                  // there are groups, always
-                  // to find out whether it is in or out, I just have to find out in which group
-                  // the first sentence currently is, and then check if the size of the group is
-                  // 1 (alone/out) or more (together/in)
-
-                  const relevantGroup = paragraphs.filter((arr) =>
-                    arr.includes(sentNo)
-                  )[0];
-                  const isIn = relevantGroup.length > 1;
-                  // console.log(relevantGroup);
-                  // console.log(isIn);
-
                   if (isIn) {
                     // pop it out
-                    const groupIndex = paragraphs.findIndex(
-                      (group) => group == relevantGroup
-                    );
                     paragraphs[groupIndex].shift();
                     paragraphs.unshift([0]);
-                    console.log(paragraphs);
                   } else {
                     paragraphs.shift();
                     paragraphs[0].unshift(0);
+                  }
+                  // then, if it's the last
+                } else if (sentNo === lastSentNo) {
+                  if (isIn) {
+                    // pop it out
+                    paragraphs[groupIndex].pop();
+                    paragraphs.push([lastSentNo]);
+                  } else {
+                    paragraphs.pop();
+                    paragraphs[paragraphs.length - 1].push(lastSentNo);
                   }
                 }
               }}
