@@ -1,18 +1,17 @@
 <script lang="ts">
-  import type { Theme } from "./lib/constants/types";
   import { setContext } from "svelte";
+  import type { Mode, Theme } from "./lib/constants/types";
+  import Form from "./lib/Form.svelte";
+  import Quote from "./lib/Quote.svelte";
+  import LightSwitch from "./lib/LightSwitch.svelte";
+  import ModeSelector from "./lib/ModeSelector.svelte";
 
-  let theme: Theme = $state({
-    dark: true,
-  });
-
+  // Contexts
+  let theme: Theme = $state({ dark: true });
   setContext("theme", theme);
 
-  import Form from "./lib/Form.svelte";
-  import LightSwitch from "./lib/LightSwitch.svelte";
-
-  import ModeSelector from "./lib/ModeSelector.svelte";
-  import Quote from "./lib/Quote.svelte";
+  let mode: Mode = $state({ current: 0 });
+  setContext("mode", mode);
 
   let move = $state(true);
 </script>

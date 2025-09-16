@@ -6,3 +6,7 @@ export type IconSVG = {
 export type Theme = {
     dark: boolean;
 };
+
+export type Mode = {
+    current: number;
+}

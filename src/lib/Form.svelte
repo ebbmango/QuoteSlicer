@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { getContext } from "svelte";
   import { icons } from "./constants/icons";
+  import type { Mode } from "./constants/types";
 
   let quote = $state<string>("一像天。冂像雲。水从雲下也。");
   let trans = $state<string>(
@@ -10,6 +12,8 @@
   const toggleLock = () => {
     lock = !lock;
   };
+
+  const mode: Mode = getContext("mode");
 </script>
 
 <!-- wrapper -->
@@ -51,7 +55,9 @@
     </div>
   </div>
   <button
-    onclick={toggleLock}
+    onclick={() => {
+      mode.current += mode.current > 0 ? -1 : 1;
+    }}
     aria-label="continue"
     class="focus:scale-120 hover:scale-120 focus:outline-none duration-200 fill-tin"
     ><svg class="w-6 duration-200" viewBox={icons.chevrons.viewBox}>
