@@ -56,7 +56,7 @@
   </div>
   <button
     onclick={() => {
-      mode.current += mode.current > 0 ? -1 : 1;
+      mode.current = mode.current === 0 ? 1 : 0;
     }}
     aria-label="continue"
     class="focus:scale-120 hover:scale-120 focus:outline-none duration-200 fill-tin"

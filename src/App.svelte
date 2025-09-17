@@ -38,7 +38,7 @@
       class="w-full min-w-[400px] bg-white dark:bg-umbra flex flex-col justify-center items-center duration-500"
     >
       <!-- BUTTONS -->
-      <div class="flex flex-col w-full min-h-[10%] items-center gap-2 mt-6">
+      <div class="flex flex-col w-full min-h-[11%] items-center gap-3 mt-4">
         <div class="flex w-full justify-center h-[33%]">
           <LightSwitch />
         </div>

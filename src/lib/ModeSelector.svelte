@@ -5,13 +5,11 @@
   // assets
   import { icons } from "./constants/icons";
   import type { Mode } from "./constants/types";
-
-  let expand = $state(false);
-  const toggle = () => {
-    expand = !expand;
-  };
+  import ModeSelectorButton from "./ModeSelectorButton.svelte";
 
   const mode: Mode = getContext("mode");
+  const verse: boolean = $derived(mode.current === 2 || mode.current === 3);
+  const write: boolean = $derived(mode.current === 0);
 
   // PLAN: start in mode 0; when the mode switches, the keyboard
   // icon should fly out as the mode selector flies in.
@@ -55,51 +53,65 @@
     in:fly={{ x: 200, duration: 500 }}
     out:fly={{ x: 200, duration: 500 }}
     onoutroend={delay}
-    class="flex gap-3 fill-tin h-[50%] duration-200 z-10"
+    class="flex gap-3 fill-tin h-[40%] duration-200 z-10"
   >
-    <svg
-      class="w-5 duration-200 hover:scale-120"
-      viewBox={icons.highlighter.viewBox}
-    >
-      <path d={icons.highlighter.path} />
-    </svg>
-    <svg
-      onclick={toggle}
-      class="w-5 duration-200 hover:scale-120"
-      viewBox={icons.paragraph.viewBox}
-    >
-      <path d={icons.paragraph.path} />
-    </svg>
-    <svg class="w-5 duration-200 hover:scale-120" viewBox={icons.eye.viewBox}>
-      <path d={icons.eye.path} />
-    </svg>
+    <!-- MAPPING -->
+    <ModeSelectorButton
+      label="Map"
+      icon={icons.highlighter.path}
+      dimmed={mode.current !== 1}
+      click={() => {
+        mode.current = 1;
+      }}
+    />
+    <!-- VERSIFICATION -->
+    <ModeSelectorButton
+      label="Versify"
+      icon={icons.paragraph.path}
+      dimmed={!verse}
+      click={() => {
+        if (!verse) mode.current = 2;
+      }}
+    />
+    <!-- PREVIEW -->
+    <ModeSelectorButton
+      label="Preview"
+      icon={icons.eye.path}
+      dimmed={mode.current !== 4}
+      click={() => {
+        mode.current = 4;
+      }}
+    />
   </div>
   <!-- bottom row -->
   <!-- this should only be shown if the versification mode is active -->
-  <div
-    class="flex gap-3 fill-tin h-[50%] animated"
-    class:-translate-y-4={!expand}
-    class:opacity-0={!expand}
-  >
-    <svg
-      class="w-6 duration-200 hover:scale-120 rotate-90"
-      viewBox={icons.join.viewBox}
+  {#if verse}
+    <div
+      in:fly={{ y: -10, duration: 500 }}
+      out:fly={{ x: write ? 200 : 0, duration: write ? 500 : 300 }}
+      class="flex gap-3 fill-tin h-[60%]"
+      class:-translate-y-4={!verse}
     >
-      <path d={icons.join.path} />
-    </svg>
-    <svg
-      class="w-6 duration-200 hover:scale-120 rotate-90"
-      viewBox={icons.separate.viewBox}
-    >
-      <path d={icons.separate.path} />
-    </svg>
-  </div>
+      <!-- JOIN -->
+      <ModeSelectorButton
+        label="Join verses"
+        icon={icons.join.path}
+        rotate
+        dimmed={mode.current !== 2}
+        click={() => {
+          mode.current = 2;
+        }}
+      />
+      <!-- SPLIT -->
+      <ModeSelectorButton
+        label="Split verses"
+        icon={icons.separate.path}
+        rotate
+        dimmed={mode.current !== 3}
+        click={() => {
+          mode.current = 3;
+        }}
+      />
+    </div>
+  {/if}
 {/if}
-
-<style>
-  .animated {
-    transition:
-      opacity 150ms ease-in,
-      translate 500ms ease;
-  }
-</style>
