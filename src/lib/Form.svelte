@@ -21,24 +21,6 @@
   const lock: boolean = $derived(mode.current !== 0);
 
   let button: HTMLButtonElement | null = null;
-  let form: HTMLDivElement | null = null;
-  let timeline: GSAPTimeline = gsap.timeline({ paused: true });
-
-  onMount(() => {
-    timeline.to(button, {
-      // y: -8,
-      rotation: 90,
-      duration: 0.2,
-      ease: backInOut,
-    });
-    timeline.to(button, {
-      y: 200,
-      duration: 0.3,
-      delay: 0.4,
-      ease: backIn,
-    });
-    timeline;
-  });
 </script>
 
 <!-- wrapper -->
@@ -46,8 +28,8 @@
   class="absolute bottom-0 flex flex-col w-full h-[40%] items-center gap-2 bg-blue-10 duration-700"
   class:translate-y-[85%]={lock}
 >
-  <!-- lock icon -->
   <div class="flex w-full h-5 justify-center gap-1">
+    <!-- lock icon -->
     <svg
       class="w-4 fill-tin duration-800"
       viewBox={icons.lock.viewBox}
@@ -55,14 +37,17 @@
     >
       <path d={icons.lock.path} />
     </svg>
+    <!-- back icon -->
     <button
       aria-label="Return"
+      tabindex={lock ? 0 : -1}
+      class="group outline-none"
       onclick={() => {
         mode.current = 0;
       }}
     >
       <svg
-        class="w-4 scale-95 mt-[10%] icon rotate-45 hover:-rotate-135 fill-tin hover:fill-[#de996b]"
+        class="w-4 scale-95 mt-[10%] icon group-focus:scale-120 group-focus:fill-[#de996b] hover:-rotate-135 hover:fill-[#de996b] rotate-45 fill-tin"
         viewBox={icons.back.viewBox}
         class:translate-y-10={!lock}
       >
@@ -100,8 +85,9 @@
   <button
     id="submit"
     bind:this={button}
+    tabindex={lock ? -1 : 0}
     aria-label="continue"
-    class="mt-3 focus:scale-120 hover:scale-120 focus:outline-none duration-300 fill-silver dark:fill-tin opacity-50 dark:opacity-30 hover:opacity-100 focus:opacity-100"
+    class="mt-3 focus:scale-120 focus:rotate-90 hover:scale-120 hover:rotate-90 focus:outline-none duration-300 fill-silver dark:fill-tin opacity-50 dark:opacity-30 hover:opacity-100 focus:opacity-100"
     onclick={() => {
       mode.current = 1;
     }}
