@@ -11,7 +11,7 @@
   setContext("theme", theme);
 
   let mode: Mode = $state({ current: 0 });
-  let move = $derived(mode.current === 0)
+  let move = $derived(mode.current === 0);
   setContext("mode", mode);
 </script>
 
@@ -34,10 +34,12 @@
     </div>
     <!-- MIDDLE -->
     <div
-      class="w-full min-w-[400px] bg-white dark:bg-umbra flex flex-col justify-center items-center duration-500"
+      class="overflow-hidden relative w-full min-w-[400px] bg-white dark:bg-umbra flex flex-col justify-center items-center duration-500"
+      class:pb-[20%]={move}
+      class:pb-[10%]={!move}
     >
       <!-- BUTTONS -->
-      <div class="flex flex-col w-full min-h-[11%] items-center gap-3 mt-4">
+      <div class="flex flex-col w-full min-h-[13%] items-center gap-3 mt-4">
         <div class="flex w-full justify-center h-[33%]">
           <LightSwitch />
         </div>
@@ -48,9 +50,7 @@
       <!-- QUOTE -->
       <Quote trans={""} quote={""} source={""} />
       <!-- FORM -->
-      <div class="flex justify-center w-full h-full max-h-[40%]">
-        <Form />
-      </div>
+      <Form />
       <!-- <button
         class="bg-blue-400 w-20 h-10 rounded-lg text-white active:bg-blue-500"
         type="button"
