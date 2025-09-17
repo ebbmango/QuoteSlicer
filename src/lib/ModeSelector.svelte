@@ -53,7 +53,7 @@
     in:fly={{ x: 200, duration: 500 }}
     out:fly={{ x: 200, duration: 500 }}
     onoutroend={delay}
-    class="flex gap-3 fill-tin h-[40%] duration-200 z-10"
+    class="flex gap-3 fill-tin h-[3dvh] duration-200 z-10"
   >
     <!-- MAPPING -->
     <ModeSelectorButton
@@ -89,7 +89,7 @@
     <div
       in:fly={{ y: -10, duration: 500 }}
       out:fly={{ x: write ? 200 : 0, duration: write ? 500 : 300 }}
-      class="flex gap-3 fill-tin h-[60%]"
+      class="flex gap-3 fill-tin h-[3dvh]"
       class:-translate-y-4={!verse}
     >
       <!-- JOIN -->
