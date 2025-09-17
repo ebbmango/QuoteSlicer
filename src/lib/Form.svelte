@@ -1,21 +1,10 @@
 <script lang="ts">
-  import { getContext, onMount } from "svelte";
+  import { getContext } from "svelte";
   import { icons } from "./constants/icons";
   import type { Mode } from "./constants/types";
-  import gsap, { Power4 } from "gsap";
-  import {
-    backIn,
-    backInOut,
-    backOut,
-    bounceIn,
-    bounceInOut,
-  } from "svelte/easing";
-  import { fly } from "svelte/transition";
 
-  let quote = $state<string>("一像天。冂像雲。水从雲下也。");
-  let trans = $state<string>(
-    "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
-  );
+  let quote = $state<string>(""); // "一像天。冂像雲。水从雲下也。"
+  let trans = $state<string>(""); // "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
 
   const mode: Mode = getContext("mode");
   const lock: boolean = $derived(mode.current !== 0);
@@ -82,6 +71,7 @@
       />
     </div>
   </div>
+  <!-- triple chevron button -->
   <button
     id="submit"
     bind:this={button}

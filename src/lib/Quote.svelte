@@ -21,7 +21,7 @@
     class="dark:text-white font-jp-serif italic text-md"
     class:opacity-70={quote === ""}
   >
-    {quote || "Use the box below to enter your translated text."}
+    {trans || "Use the box below to enter your translated text."}
   </p>
   <!-- Source -->
   <input

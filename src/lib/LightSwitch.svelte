@@ -32,6 +32,3 @@
     /><path d={theme.dark ? icons.dark.paths[1] : icons.light.paths[1]} /></svg
   >
 </button>
-
-<style>
-</style>
