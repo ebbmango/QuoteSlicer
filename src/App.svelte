@@ -10,7 +10,7 @@
   let theme: Theme = $state({ dark: true });
   setContext("theme", theme);
 
-  let mode: Mode = $state({ current: 1 });
+  let mode: Mode = $state({ current: 0 });
   let move = $derived(mode.current === 0);
   setContext("mode", mode);
 </script>

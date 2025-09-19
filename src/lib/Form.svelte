@@ -2,6 +2,7 @@
   import { getContext } from "svelte";
   import { icons } from "./constants/icons";
   import type { Mode } from "./constants/types";
+  import { shakeY } from "./constants/anims";
 
   let quote = $state<string>(""); // "一像天。冂像雲。水从雲下也。"
   let trans = $state<string>(""); // "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
@@ -10,6 +11,25 @@
   const lock: boolean = $derived(mode.current !== 0);
 
   let button: HTMLButtonElement | null = null;
+
+  // validation
+  let quoteValid = $state<boolean>(false);
+  let transValid = $state<boolean>(false);
+
+  const hangex = /^[\p{Script=Han}\u3000-\u303F\uFF00-\uFFEF]+$/u;
+
+  const handleClick = () => {
+    // validate quote
+    quoteValid = hangex.test(quote);
+    // validate translation
+    // transValid = /* code comes here */
+    if (!quoteValid) {
+      // show warning
+      button?.animate(shakeY.keyframes, shakeY.options);
+    } else {
+      mode.current = 1;
+    }
+  };
 </script>
 
 <!-- wrapper -->
@@ -74,12 +94,13 @@
   <!-- triple chevron button -->
   <button
     id="submit"
-    bind:this={button}
-    tabindex={lock ? -1 : 0}
     aria-label="continue"
-    class="mt-3 focus:scale-120 focus:rotate-90 hover:scale-120 hover:rotate-90 focus:outline-none duration-300 fill-silver dark:fill-tin opacity-50 dark:opacity-30 hover:opacity-100 focus:opacity-100"
-    onclick={() => {
-      mode.current = 1;
+    tabindex={lock ? -1 : 0}
+    class="mt-3 horizontal-shake focus:scale-120 focus:rotate-90 hover:scale-120 hover:rotate-90 focus:outline-none duration-300 fill-silver dark:fill-tin opacity-50 dark:opacity-30 hover:opacity-100 focus:opacity-100"
+    bind:this={button}
+    onclick={handleClick}
+    onmouseleave={() => {
+      button?.blur();
     }}
     ><svg class="w-6 duration-200" viewBox={icons.chevrons.viewBox}>
       <path d={icons.chevrons.path} />
