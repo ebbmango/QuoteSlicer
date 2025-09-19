@@ -7,7 +7,7 @@
   import ModeSelector from "./lib/ModeSelector.svelte";
 
   // Contexts
-  let theme: Theme = $state({ dark: true });
+  let theme: Theme = $state({ dark: false });
   setContext("theme", theme);
 
   let mode: Mode = $state({ current: 0 });

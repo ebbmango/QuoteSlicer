@@ -1,8 +1,9 @@
 <script lang="ts">
   import { getContext } from "svelte";
   import { icons } from "./constants/icons";
+  import { shakeX } from "./constants/anims";
   import type { Mode } from "./constants/types";
-  import { shakeY } from "./constants/anims";
+  import TextField from "./TextField.svelte";
 
   let quote = $state<string>(""); // "一像天。冂像雲。水从雲下也。"
   let trans = $state<string>(""); // "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
@@ -11,23 +12,29 @@
   const lock: boolean = $derived(mode.current !== 0);
 
   let button: HTMLButtonElement | null = null;
+  let quoteAlert: SVGElement | null = $state<SVGElement | null>(null);
+  let transAlert: SVGElement | null = $state<SVGElement | null>(null);
 
   // validation
   let quoteValid = $state<boolean>(false);
   let transValid = $state<boolean>(false);
 
+  let showQuoteAlert = $state<boolean>(false);
+  let showTransAlert = $state<boolean>(false);
+
   const hangex = /^[\p{Script=Han}\u3000-\u303F\uFF00-\uFFEF]+$/u;
 
   const handleClick = () => {
-    // validate quote
     quoteValid = hangex.test(quote);
-    // validate translation
-    // transValid = /* code comes here */
-    if (!quoteValid) {
-      // show warning
-      button?.animate(shakeY.keyframes, shakeY.options);
-    } else {
+    transValid = trans.length > 0;
+
+    if (quoteValid && transValid) {
       mode.current = 1;
+    } else {
+      showQuoteAlert = !quoteValid;
+      showTransAlert = !transValid;
+      if (!quoteValid) quoteAlert?.animate(shakeX.keyframes, shakeX.options);
+      if (!transValid) transAlert?.animate(shakeX.keyframes, shakeX.options);
     }
   };
 </script>
@@ -70,34 +77,29 @@
   >
     <div class="flex flex-col items-center w-full">
       <label for="quote" class="label">Original Quote</label>
-      <input
-        inert={lock}
+      <TextField
         bind:value={quote}
-        type="text"
-        name="quote"
-        id="quote"
-        class="bg-white inert:text-silver dark:bg-steel text-umbra dark:text-white duration-200 w-full max-w-[76%] px-3 rounded-[5px] h-9 focus:outline-none focus:ring-0 text-center"
+        bind:iconRef={quoteAlert}
+        disable={lock}
+        showAlert={showQuoteAlert}
       />
     </div>
     <div class="flex flex-col items-center w-full">
       <label for="quote" class="label">Translation Text</label>
-      <input
-        inert={lock}
+      <TextField
         bind:value={trans}
-        type="text"
-        name="quote"
-        id="quote"
-        class="bg-white inert:text-silver dark:bg-steel text-umbra dark:text-white duration-200 w-full max-w-[76%] px-3 rounded-[5px] h-9 focus:outline-none focus:ring-0 text-center text-[14px]"
+        bind:iconRef={transAlert}
+        disable={lock}
+        showAlert={showTransAlert}
       />
     </div>
   </div>
   <!-- triple chevron button -->
   <button
-    id="submit"
-    aria-label="continue"
-    tabindex={lock ? -1 : 0}
-    class="mt-3 horizontal-shake focus:scale-120 focus:rotate-90 hover:scale-120 hover:rotate-90 focus:outline-none duration-300 fill-silver dark:fill-tin opacity-50 dark:opacity-30 hover:opacity-100 focus:opacity-100"
     bind:this={button}
+    tabindex={lock ? -1 : 0}
+    aria-label="Proceed to mapping."
+    class="mt-3 horizontal-shake focus:scale-120 focus:rotate-90 hover:scale-120 hover:rotate-90 focus:outline-none duration-300 fill-silver dark:fill-tin opacity-50 dark:opacity-30 hover:opacity-100 focus:opacity-100"
     onclick={handleClick}
     onmouseleave={() => {
       button?.blur();
