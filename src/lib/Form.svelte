@@ -18,7 +18,6 @@
   // validation
   let quoteValid = $state<boolean>(false);
   let transValid = $state<boolean>(false);
-
   let showQuoteAlert = $state<boolean>(false);
   let showTransAlert = $state<boolean>(false);
 
@@ -28,11 +27,12 @@
     quoteValid = hangex.test(quote);
     transValid = trans.length > 0;
 
+    showQuoteAlert = !quoteValid;
+    showTransAlert = !transValid;
+
     if (quoteValid && transValid) {
       mode.current = 1;
     } else {
-      showQuoteAlert = !quoteValid;
-      showTransAlert = !transValid;
       if (!quoteValid) quoteAlert?.animate(shakeX.keyframes, shakeX.options);
       if (!transValid) transAlert?.animate(shakeX.keyframes, shakeX.options);
     }
