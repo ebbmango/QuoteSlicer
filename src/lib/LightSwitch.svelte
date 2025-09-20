@@ -12,10 +12,18 @@
   $effect(() => {
     console.log(theme.dark);
   });
+
+  const blur = () => {
+    button?.blur();
+  };
+
+  let button: HTMLButtonElement | null = $state(null);
 </script>
 
 <button
+  bind:this={button}
   onclick={toggle}
+  onmouseleave={blur}
   aria-label="Dark Mode Toggle"
   class="group focus:outline-none"
 >
