@@ -7,6 +7,12 @@ export type Theme = {
     dark: boolean;
 };
 
+export type Quote = {
+    original: string;
+    translation: string;
+    source: string;
+};
+
 export type Mode = {
     current: number;
     /*

@@ -2,15 +2,16 @@
   import { getContext } from "svelte";
   import { icons } from "./constants/icons";
   import { shakeX } from "./constants/anims";
-  import type { Mode } from "./constants/types";
+  import type { Mode, Quote } from "./constants/types";
   import TextField from "./TextField.svelte";
 
-  let quote = $state<string>(""); // "一像天。冂像雲。水从雲下也。"
-  let trans = $state<string>(""); // "一 represents the sky. 冂 represents a cloud. Water is flowing down from the sky."
+  // props
+  const quote: Quote = getContext("quote");
 
   const mode: Mode = getContext("mode");
   const lock: boolean = $derived(mode.current !== 0);
 
+  // refs
   let button: HTMLButtonElement | null = null;
   let quoteAlert: SVGElement | null = $state<SVGElement | null>(null);
   let transAlert: SVGElement | null = $state<SVGElement | null>(null);
@@ -24,8 +25,8 @@
   const hangex = /^[\p{Script=Han}\u3000-\u303F\uFF00-\uFFEF]+$/u;
 
   const handleClick = () => {
-    quoteValid = hangex.test(quote);
-    transValid = trans.length > 0;
+    quoteValid = hangex.test(quote.original);
+    transValid = quote.translation.length > 0;
 
     showQuoteAlert = !quoteValid;
     showTransAlert = !transValid;
@@ -37,6 +38,8 @@
       if (!transValid) transAlert?.animate(shakeX.keyframes, shakeX.options);
     }
   };
+
+  $inspect(quote);
 </script>
 
 <!-- wrapper -->
@@ -78,7 +81,7 @@
     <div class="flex flex-col items-center w-full">
       <label for="quote" class="label">Original Quote</label>
       <TextField
-        bind:value={quote}
+        bind:value={quote.original}
         bind:iconRef={quoteAlert}
         disable={lock}
         showAlert={showQuoteAlert}
@@ -87,7 +90,7 @@
     <div class="flex flex-col items-center w-full">
       <label for="quote" class="label">Translation Text</label>
       <TextField
-        bind:value={trans}
+        bind:value={quote.translation}
         bind:iconRef={transAlert}
         disable={lock}
         showAlert={showTransAlert}

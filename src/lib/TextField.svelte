@@ -28,7 +28,7 @@
 
   <svg
     bind:this={iconRef}
-    class="absolute right-[13%] top-[4.5pt] w-6 duration-150 dark:fill-tin fill-[#de996b] opacity-0"
+    class="absolute right-[13%] top-[4.5pt] w-6 duration-150 fill-[#de996b] dark:fill-[#dedc6b] opacity-0"
     class:opacity-100={showAlert}
     viewBox={icons.alert.viewBox}
   >

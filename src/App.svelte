@@ -1,10 +1,10 @@
 <script lang="ts">
   import { setContext } from "svelte";
-  import type { Mode, Theme } from "./lib/constants/types";
+  import type { Mode, Theme, Quote } from "./lib/constants/types";
   import Form from "./lib/Form.svelte";
-  import Quote from "./lib/Quote.svelte";
   import LightSwitch from "./lib/LightSwitch.svelte";
   import ModeSelector from "./lib/ModeSelector.svelte";
+  import QuoteDisplay from "./lib/QuoteDisplay.svelte";
 
   // Contexts
   let theme: Theme = $state({ dark: false });
@@ -13,6 +13,9 @@
   let mode: Mode = $state({ current: 0 });
   let move = $derived(mode.current === 0);
   setContext("mode", mode);
+
+  let quote: Quote = $state({ original: "", translation: "", source: "" });
+  setContext("quote", quote);
 </script>
 
 <main>
@@ -48,7 +51,7 @@
         </div>
       </div>
       <!-- QUOTE -->
-      <Quote trans={""} quote={""} source={""} />
+      <QuoteDisplay />
       <!-- FORM -->
       <Form />
       <!-- <button
