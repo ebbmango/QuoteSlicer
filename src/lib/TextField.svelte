@@ -23,7 +23,7 @@
     type="text"
     name="quote"
     id="quote"
-    class="bg-white inert:text-silver dark:bg-steel text-umbra dark:text-white duration-200 w-full max-w-[76%] pe-[35px] px-3 rounded-[5px] h-9 focus:outline-none focus:ring-0 text-center"
+    class="bg-white inert:text-silver dark:bg-steel text-umbra dark:text-white duration-400 w-full max-w-[76%] pe-[35px] px-3 rounded-[5px] h-9 focus:outline-none focus:ring-0 text-center"
   />
 
   <svg
