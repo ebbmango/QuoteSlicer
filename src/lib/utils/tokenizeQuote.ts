@@ -1,5 +1,5 @@
 import { pinyin } from "pinyin-pro";
-import type { QuoteToken } from "./types";
+import type { QuoteToken } from "../constants/types";
 
 type TokenType = "punct" | "hanzi" | "other";
 
